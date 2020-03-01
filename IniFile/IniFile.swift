@@ -7,13 +7,13 @@
 //
 
 /*
- Ini 檔案範例
- 
+ INI 範例檔案
+
  inifile.ini
  =================
- ;分號開頭是註解
- #這行是無法處理的資料，儲存時依然會保留
- ;底下這一組是最上層資料，section 指定為空字串即可處理
+ ; 分號開頭是註解
+ # 這行是無法處理的資料，儲存時依然會保留
+ ; 底下這一組是最上層資料，section 指定為空字串即可處理
  key=value
  
  [Section]
@@ -25,12 +25,15 @@
  
  =================
  
- CIniFile 使用方法 (預設 encoding 為 utf8)
- 
+ CIniFile 使用方法
+ 預設 encoding 為 utf8
+
  let myIni = try CIniFile(fileName = "inifile.ini", encoding = .utf8)
  
- 讀取資料，若 section 為空字串，表示讀取最上層無 section 的資料
-
+ 讀取資料
+ 若 section 為空字串，表示讀取最上層無 section 的資料
+ 若讀取失敗，則傳回 defaultVal
+ 
  let str = myIni.readString(section, key, defaultVal)
  let int = myIni.readInt(section, key, defaultVal)
  let bool = myIni.readBool(section, key, defaultVal)
