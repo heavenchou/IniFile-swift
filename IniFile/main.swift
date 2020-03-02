@@ -70,3 +70,15 @@ assert(!b)
 myIni.writeBool("", "item_false4", b)
 
 try myIni.writeFile("/Users/heaven/Data/Swift/IniFile/IniFile/test2.ini")
+
+// test Empty ini file
+
+let myIni3 = try! CIniFile(fileName: "/Users/heaven/Data/Swift/IniFile/IniFile/test3.ini")
+
+myIni3.writeBool("", "default_true", true)
+myIni3.writeInt("first_sec", "sec1_int", 2020)
+myIni3.writeString("first_sec", "sec1_str", "2020str")
+myIni3.writeString("second_sec", "sec2_str", "第二區的字串文字")
+
+try myIni3.writeFile()
+

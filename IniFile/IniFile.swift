@@ -134,14 +134,19 @@ class CIniFile {
     init (fileName: String, encoding: String.Encoding = .utf8) throws {
         self.fileName = fileName
         self.encoding = encoding
-        let file = try String(contentsOfFile: fileName, encoding: encoding)
-        let lines = file.split(omittingEmptySubsequences: false, whereSeparator: { $0.isNewline })
-        
+  
         // 沒有 Section 的預設值
         var sectionName = defaultSection
         checkIfNewSection(sectionName)
         // defaultSection 要給註解初值，否則會自動加一行空白
         sectionNote[defaultSection] = ""
+        
+        if !FileManager.default.fileExists(atPath: fileName) {
+            return
+        }
+        
+        let file = try String(contentsOfFile: fileName, encoding: encoding)
+        let lines = file.split(omittingEmptySubsequences: false, whereSeparator: { $0.isNewline })
 
         // 逐行分析
         for line in lines {
