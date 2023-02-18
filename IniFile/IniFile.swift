@@ -304,6 +304,14 @@ class CIniFile {
         return defaultVal
     }
     
+    func readSecton(_ sec: String) -> [String: String] {
+        // 處理 section
+        var section = sec
+        if section == "" { section = defaultSection }
+        
+        return content[section] ?? [:]
+    }
+    
     func writeFile(_ fileName: String = "") throws {
         var fileName = fileName
         if fileName == "" {
