@@ -170,12 +170,14 @@ class CIniFile {
             } else if let (key, val) = getKeyValue(line) {
                 // key=val 為內容
                 content[sectionName]![key] = val
-                keyList[sectionName]!.append(key)
+                if !keyList[sectionName]!.contains(key) {
+                    keyList[sectionName]!.append(key)
+                }
                 keyNote[sectionName]![key] = thisNote
                 thisNote = ""
             } else {
                 // 無法處理的，也當成註解記錄下來好了
-                thisNote += line + "\n"
+                thisNote += ";-" + line + "\n"
             }
         }
     }
@@ -193,6 +195,12 @@ class CIniFile {
         if parts.count == 2 {
             let key = String(parts[0]).trimmingCharacters(in: .whitespaces)
             let val = String(parts[1]).trimmingCharacters(in: .whitespaces)
+            return (key, val)
+        } else if parts.count == 1 {
+            // 沒有內容的項目
+            // item=
+            let key = String(parts[0]).trimmingCharacters(in: .whitespaces)
+            let val = ""
             return (key, val)
         }
         return nil
@@ -340,7 +348,7 @@ class CIniFile {
                 lines += "\(key)=\(content[sec]![key]!)\n"
             }
         }
-        lines += thisNote
+        lines += thisNote.trimmingCharacters(in: .newlines)
         
         try lines.write(to: URL(fileURLWithPath: fileName), atomically: true, encoding: encoding)
     }
